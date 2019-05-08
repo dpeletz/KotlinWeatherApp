@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/custom_border"
+              android:backgroundTint="@color/colorWhite"
+              android:layout_gravity="center">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:background="@drawable/custom_border"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_height="wrap_content">
+
+        <ImageView android:layout_width="150dp"
+                   android:layout_height="150dp"
+                   android:layout_gravity="right"
+                   android:id="@+id/ivWeatherIcon"/>
+
+        <TextView
+                android:id="@+id/tvCityNameDetails"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+        <TextView
+                android:id="@+id/tvCurrentTemperature"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvDescription"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvMinTemperature"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvMaxTemperature"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvHumidity"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvSunrise"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        <TextView
+                android:id="@+id/tvSunset"
+                android:layout_gravity="left"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

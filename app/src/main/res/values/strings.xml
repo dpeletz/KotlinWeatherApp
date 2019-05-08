@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="add_click_hint">Click here to add cities to your list of cities</string>
+    <string name="add_city">Add City</string>
+    <string name="tag_item">TAG_ITEM</string>
+    <string name="edit_city_dialog">EDIT_CITY_DIALOG</string>
+    <string name="key_open">KEY_WAS_OPEN</string>
+    <string name="city_handler_error">The activity does not implement the CityHandlerInterface</string>
+    <string name="city_name_holder">City Name</string>
+    <string name="ok">OK</string>
+    <string name="new_city">New city</string>
+    <string name="edit_city">Edit city</string>
+    <string name="edit_string">Edit</string>
+    <string name="delete_all">Delete All</string>
+    <string name="key_city_to_edit">KEY_CITY_TO_EDIT</string>
+    <string name="empty_city_name">The city field cannot be empty</string>
+    <string name="action_settings">Settings</string>
+    <string name="current_temperature">Current Temperature: %1$s</string>
+    <string name="max_temperature">Max Temperature: %1$s</string>
+    <string name="min_temperature">Min Temperature: %1$s</string>
+    <string name="humidity">Humidity: %1$s</string>
+    <string name="sunrise">Sunrise: %1$s</string>
+    <string name="sunset">Sunset: %1$s</string>
+    <string name="description">Description: %1$s</string>
+    <string name="time_pattern">HH:mm</string>
+    <string name="imperial">imperial</string>
+    <string name="app_id">c4c8b93ee80236d156490de162192650</string>
+    <string name="base_url">https://api.openweathermap.org/</string>
+    <string name="image_url">https://openweathermap.org/img/w/</string>
+    <string name="png">.png</string>
+    <string name="city_name">city name</string>
+    <string name="city_db">city.db</string>
+</resources>
