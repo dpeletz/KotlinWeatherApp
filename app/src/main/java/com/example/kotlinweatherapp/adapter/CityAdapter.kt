@@ -19,7 +19,7 @@ import java.util.*
 
 class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelperCallback {
 
-    var cities = mutableListOf<City>()
+    private var cities = mutableListOf<City>()
     private val context: Context
 
     constructor(context: Context, listCities: List<City>) : super() {
@@ -75,12 +75,6 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
                 city, viewHolder.adapterPosition
             )
         }
-    }
-
-    fun updateCity(city: City) {
-        Thread {
-            AppDatabase.getInstance(context).cityDao().updateCity(city)
-        }.start()
     }
 
     fun updateCity(city: City, editIndex: Int) {

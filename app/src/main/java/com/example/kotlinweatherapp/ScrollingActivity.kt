@@ -155,7 +155,7 @@ class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
         CityDialog().show(supportFragmentManager, getText(R.string.tag_item).toString())
     }
 
-    public fun showEditCityDialog(cityToEdit: City, idx: Int) {
+    fun showEditCityDialog(cityToEdit: City, idx: Int) {
         editIndex = idx
         val editCityDialog = CityDialog()
         val bundle = Bundle()

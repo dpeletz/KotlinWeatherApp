@@ -9,6 +9,7 @@
             android:id="@+id/etCityName"
             android:hint="@string/city_name_holder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:importantForAutofill="no"/>
 
 </LinearLayout>
