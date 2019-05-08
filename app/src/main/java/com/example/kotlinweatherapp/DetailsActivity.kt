@@ -1,10 +1,17 @@
 package com.example.kotlinweatherapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.kotlinweatherapp.data.WeatherResult
 import com.example.kotlinweatherapp.network.WeatherAPI
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_details.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,20 +21,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        var cityName = intent.getStringExtra(getString(R.string.city_name))
+        val cityName = intent.getStringExtra(getString(R.string.city_name))
 
-        var retrofit = Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
             .baseUrl(getString(R.string.base_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        var weatherAPI = retrofit.create(WeatherAPI::class.java)
+        val weatherAPI = retrofit.create(WeatherAPI::class.java)
 
         val call = weatherAPI.getWeatherDetails(
             cityName,
@@ -35,7 +43,13 @@ class DetailsActivity : AppCompatActivity() {
             getString(R.string.app_id)
         )
 
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
         call.enqueue(object : Callback<WeatherResult> {
+            @SuppressLint("SimpleDateFormat")
             override fun onResponse(call: Call<WeatherResult>, response: Response<WeatherResult>) {
                 tvCityNameDetails.setText(cityName)
 
@@ -49,11 +63,15 @@ class DetailsActivity : AppCompatActivity() {
                     ).into(ivWeatherIcon)
 
                 tvCurrentTemperature.text =
-                    getString(R.string.current_temperature, weatherResult?.main?.temp)
+                    getString(R.string.current_temperature, weatherResult?.main?.temp).plus(0x00B0.toChar())
+                        .plus(getString(R.string.f))
                 tvMaxTemperature.text =
-                    getString(R.string.max_temperature, weatherResult?.main?.temp_max)
+                    getString(R.string.max_temperature, weatherResult?.main?.temp_max).plus(0x00B0.toChar())
+                        .plus(getString(R.string.f))
                 tvMinTemperature.text =
-                    getString(R.string.min_temperature, weatherResult?.main?.temp_min)
+                    getString(R.string.min_temperature, weatherResult?.main?.temp_min).plus(0x00B0.toChar())
+                        .plus(getString(R.string.f))
+
                 tvHumidity.text =
                     getString(R.string.humidity, weatherResult?.main?.humidity)
                 val description = weatherResult?.weather?.first()?.description
@@ -74,11 +92,20 @@ class DetailsActivity : AppCompatActivity() {
                     SimpleDateFormat(getString(R.string.time_pattern)).format(calendar.time)
                 tvSunset.text = getString(R.string.sunset, formattedSunset)
 
+                val cityLat = weatherResult?.coord?.lat!!.toDouble()
+                val cityLong = weatherResult?.coord?.lon!!.toDouble()
+                val city = LatLng(cityLat, cityLong)
+                mMap.addMarker(MarkerOptions().position(city).title(getString(R.string.city_location, cityName)))
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(city))
             }
 
             override fun onFailure(call: Call<WeatherResult>, t: Throwable) {
                 tvHumidity.text = t.message
             }
         })
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
     }
 }

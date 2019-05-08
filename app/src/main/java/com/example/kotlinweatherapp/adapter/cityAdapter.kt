@@ -6,12 +6,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.example.kotlinweatherapp.DetailsActivity
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.ScrollingActivity
 import com.example.kotlinweatherapp.data.AppDatabase
 import com.example.kotlinweatherapp.data.City
-import com.example.shoppinglistkotlin.touch.ItemTouchHelperCallback
+import com.example.kotlinweatherapp.touch.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.city_row.view.*
 import java.util.*
 
@@ -62,7 +64,7 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
         }
 
         viewHolder.tvCityName.setOnClickListener {
-            var cityIntent = Intent(context, DetailsActivity::class.java)
+            val cityIntent = Intent(context, DetailsActivity::class.java)
 //            val cityName =
             cityIntent.putExtra(context.resources.getString(R.string.city_name), viewHolder.tvCityName.text)
             context.startActivity(cityIntent)
@@ -109,8 +111,8 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
     }
 
     inner class ViewHolder(cityView: View) : RecyclerView.ViewHolder(cityView) {
-        var tvCityName = cityView.tvCityName
-        var btnDelete = cityView.btnDelete
-        var btnEdit = cityView.btnEdit
+        var tvCityName: TextView = cityView.tvCityName
+        var btnDelete: Button = cityView.btnDelete
+        var btnEdit: Button= cityView.btnEdit
     }
 }

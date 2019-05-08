@@ -1,4 +1,4 @@
-package com.example.shoppinglistkotlin.touch
+package com.example.kotlinweatherapp.touch
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper

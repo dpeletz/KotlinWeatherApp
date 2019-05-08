@@ -30,4 +30,8 @@
     <string name="png">.png</string>
     <string name="city_name">city name</string>
     <string name="city_db">city.db</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="f">F</string>
+    <string name="degree_symbol">0x00B0</string>
+    <string name="city_location">"Marker in %1$s"</string>
 </resources>

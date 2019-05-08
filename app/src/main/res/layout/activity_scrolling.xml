@@ -54,7 +54,7 @@
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/icon_add"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:tint="@color/colorWhite"/>
+            android:tint="@color/colorWhite" tools:targetApi="lollipop"/>
 
     <Button
             android:id="@+id/btnDeleteAll"

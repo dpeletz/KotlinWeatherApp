@@ -1,4 +1,4 @@
-package com.example.shoppinglistkotlin.touch
+package com.example.kotlinweatherapp.touch
 
 interface ItemTouchHelperCallback {
     fun onDismissed(position: Int)

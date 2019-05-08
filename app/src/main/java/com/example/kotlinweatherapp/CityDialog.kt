@@ -1,5 +1,6 @@
 package com.example.kotlinweatherapp
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -68,6 +69,7 @@ class CityDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
         builder.setTitle(R.string.edit_city)
     }
 
+    @SuppressLint("InflateParams")
     private fun initializeRootView(): View? {
         val rootView = requireActivity().layoutInflater.inflate(R.layout.new_city_dialog, null)
         etCityName = rootView.etCityName

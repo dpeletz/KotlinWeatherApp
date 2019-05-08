@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils
 import com.example.kotlinweatherapp.adapter.cityAdapter
 import com.example.kotlinweatherapp.data.AppDatabase
 import com.example.kotlinweatherapp.data.City
-import com.example.shoppinglistkotlin.touch.ItemRecyclerTouchCallback
+import com.example.kotlinweatherapp.touch.ItemRecyclerTouchCallback
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
