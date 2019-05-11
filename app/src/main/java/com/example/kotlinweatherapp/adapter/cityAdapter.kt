@@ -17,13 +17,14 @@ import com.example.kotlinweatherapp.touch.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.city_row.view.*
 import java.util.*
 
-class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelperCallback {
+class cityAdapter(
+    private val context: Context,
+    listCities: List<City>
+) : RecyclerView.Adapter<cityAdapter.ViewHolder>(), ItemTouchHelperCallback {
 
     private var cities = mutableListOf<City>()
-    private val context: Context
 
-    constructor(context: Context, listCities: List<City>) : super() {
-        this.context = context
+    init {
         cities.addAll(listCities)
     }
 
@@ -39,10 +40,8 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val city = cities.get(position)
-
+        val city = cities[position]
         viewHolder.tvCityName.text = city.cityName
-
         setOnClickListeners(viewHolder, city)
     }
 
@@ -65,7 +64,6 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
 
         viewHolder.tvCityName.setOnClickListener {
             val cityIntent = Intent(context, DetailsActivity::class.java)
-//            val cityName =
             cityIntent.putExtra(context.resources.getString(R.string.city_name), viewHolder.tvCityName.text)
             context.startActivity(cityIntent)
         }
@@ -92,12 +90,12 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
         notifyDataSetChanged()
     }
 
-    fun deleteCity(deletePosition: Int) {
+    private fun deleteCity(deletePosition: Int) {
         Thread { deleteDBCity(deletePosition) }.start()
     }
 
     private fun deleteDBCity(deletePosition: Int) {
-        AppDatabase.getInstance(context).cityDao().deleteCity(cities.get(deletePosition))
+        AppDatabase.getInstance(context).cityDao().deleteCity(cities[deletePosition])
         (context as ScrollingActivity).runOnUiThread {
             cities.removeAt(deletePosition)
             notifyItemRemoved(deletePosition)
@@ -107,6 +105,6 @@ class cityAdapter : RecyclerView.Adapter<cityAdapter.ViewHolder>, ItemTouchHelpe
     inner class ViewHolder(cityView: View) : RecyclerView.ViewHolder(cityView) {
         var tvCityName: TextView = cityView.tvCityName
         var btnDelete: Button = cityView.btnDelete
-        var btnEdit: Button= cityView.btnEdit
+        var btnEdit: Button = cityView.btnEdit
     }
 }

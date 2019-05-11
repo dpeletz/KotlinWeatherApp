@@ -19,11 +19,11 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
 
-    lateinit var cityAdapter: cityAdapter
-    var editIndex: Int = -1
+    private lateinit var cityAdapter: cityAdapter
+    private var editIndex: Int = -1
 
     companion object {
-        val KEY_CITY_TO_EDIT = R.string.key_city_to_edit.toString()
+        const val KEY_CITY_TO_EDIT = R.string.key_city_to_edit.toString()
     }
 
     override fun cityCreated(city: City) {
@@ -53,34 +53,22 @@ class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
         setSupportActionBar(toolbar)
         setOnClickListeners()
 
-        if (!wasOpenedEarlier()) {
-            setUpFabPrompt()
-        }
+        if (!wasOpenedEarlier()) setUpFabPrompt()
+
         saveFirstOpenInfo()
         initRecyclerViewFromDB()
     }
 
     private fun insertCityAndRunOnUiThread(city: City) {
-        val cityId = AppDatabase.getInstance(
-            this@ScrollingActivity
-        ).cityDao().insertCity(city)
+        val cityId = AppDatabase.getInstance(this@ScrollingActivity).cityDao().insertCity(city)
         city.cityId = cityId
-        runOnUiThread {
-            cityAdapter.addCity(city)
-        }
-
+        runOnUiThread { cityAdapter.addCity(city) }
     }
-
 
     private fun updateCityAndRunOnUiThread(city: City) {
-        AppDatabase.getInstance(
-            this@ScrollingActivity
-        ).cityDao().updateCity(city)
-        runOnUiThread {
-            cityAdapter.updateCity(city, editIndex)
-        }
+        AppDatabase.getInstance(this@ScrollingActivity).cityDao().updateCity(city)
+        runOnUiThread { cityAdapter.updateCity(city, editIndex) }
     }
-
 
     private fun setUpFabPrompt() {
         MaterialTapTargetPrompt.Builder(this)
@@ -91,21 +79,17 @@ class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
     }
 
     private fun setOnClickListeners() {
-        var demoAnim = AnimationUtils.loadAnimation(
-            this@ScrollingActivity, R.anim.demo_anim
-        )
-
-        demoAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-            override fun onAnimationEnd(animation: Animation?) {}
-            override fun onAnimationStart(animation: Animation?) {}
-        })
+        val demoAnim = setUpDemoAnim()
 
         fab.setOnClickListener { view ->
             fab.startAnimation(demoAnim)
             showAddCityDialog()
         }
 
+        setBtnDeleteListener(demoAnim)
+    }
+
+    private fun setBtnDeleteListener(demoAnim: Animation?) {
         btnDeleteAll.setOnClickListener {
             btnDeleteAll.startAnimation(demoAnim)
             Thread {
@@ -117,15 +101,26 @@ class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
         }
     }
 
-    fun saveFirstOpenInfo() {
-        var sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        var editor = sharedPref.edit()
+    private fun setUpDemoAnim(): Animation? {
+        val demoAnim = AnimationUtils.loadAnimation(this@ScrollingActivity, R.anim.demo_anim)
+
+        demoAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {}
+            override fun onAnimationStart(animation: Animation?) {}
+        })
+        return demoAnim
+    }
+
+    private fun saveFirstOpenInfo() {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = sharedPref.edit()
         editor.putBoolean(getText(R.string.key_open).toString(), true)
         editor.apply()
     }
 
-    fun wasOpenedEarlier(): Boolean {
-        var sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+    private fun wasOpenedEarlier(): Boolean {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         return sharedPref.getBoolean(getText(R.string.key_open).toString(), false)
     }
 
@@ -134,21 +129,23 @@ class ScrollingActivity : AppCompatActivity(), CityDialog.CityHandler {
     }
 
     private fun getCitiesAndRunOnUiThread() {
-        var listCities =
+        val listCities =
             AppDatabase.getInstance(this@ScrollingActivity).cityDao().getAllCities()
 
-        runOnUiThread {
-            cityAdapter = cityAdapter(this, listCities)
-            recyclerItem.layoutManager = LinearLayoutManager(this)
-            recyclerItem.adapter = cityAdapter
+        runOnUiThread { setUpRecyclerView(listCities) }
+    }
 
-            val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-            recyclerItem.addItemDecoration(itemDecoration)
+    private fun setUpRecyclerView(listCities: List<City>) {
+        cityAdapter = cityAdapter(this, listCities)
+        recyclerItem.layoutManager = LinearLayoutManager(this)
+        recyclerItem.adapter = cityAdapter
 
-            val callback = ItemRecyclerTouchCallback(cityAdapter)
-            val touchHelper = ItemTouchHelper(callback)
-            touchHelper.attachToRecyclerView(recyclerItem)
-        }
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        recyclerItem.addItemDecoration(itemDecoration)
+
+        val callback = ItemRecyclerTouchCallback(cityAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerItem)
     }
 
     private fun showAddCityDialog() {

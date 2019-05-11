@@ -26,19 +26,16 @@ class CityDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
         super.onAttach(context)
 
         if (context is CityHandler) cityHandler = context
-//        else throw RuntimeException(R.string.city_handler_error.toString())
         else throw RuntimeException(R.string.city_handler_error.toString())
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
         val rootView = initializeRootView()
-
         builder.setTitle(R.string.new_city)
         builder.setView(rootView)
         setUpEditTextFields(builder)
         builder.setPositiveButton(R.string.ok) { dialog, witch -> }
-
         return builder.create()
     }
 
@@ -48,7 +45,6 @@ class CityDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
 
     override fun onResume() {
         super.onResume()
-
         val positiveButton = (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE)
         positiveButton.setOnClickListener { createOrEditAfterCheckingFields() }
     }
@@ -117,7 +113,6 @@ class CityDialog : DialogFragment(), AdapterView.OnItemSelectedListener {
 
     private fun handleCityEdit() {
         val cityToEdit = arguments?.getSerializable(ScrollingActivity.KEY_CITY_TO_EDIT) as City
-
         editCity(cityToEdit)
         cityHandler.cityUpdated(cityToEdit)
     }
